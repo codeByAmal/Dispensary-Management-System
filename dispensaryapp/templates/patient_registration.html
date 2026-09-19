@@ -1,0 +1,458 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Dispensary Management System</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Favicon -->
+    <link href="{% static 'assets/img/favicon.ico'%}" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">  
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="{% static 'assets/lib/owlcarousel/assets/owl.carousel.min.css'%}" rel="stylesheet">
+    <link href="{% static 'assets/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css'%}" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{% static 'assets/css/bootstrap.min.css'%}" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="{% static 'assets/css/style.css'%}" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Topbar Start -->
+    <div class="container-fluid py-2 border-bottom d-none d-lg-block">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-lg-start mb-2 mb-lg-0">
+                    <div class="d-inline-flex align-items-center">
+                        <a class="text-decoration-none text-body pe-3" href=""><i class="bi bi-telephone me-2"></i>+012 345 6789</a>
+                        <span class="text-body">|</span>
+                        <a class="text-decoration-none text-body px-3" href=""><i class="bi bi-envelope me-2"></i>info@example.com</a>
+                    </div>
+                </div>
+                <div class="col-md-6 text-center text-lg-end">
+                    <div class="d-inline-flex align-items-center">
+                        <a class="text-body px-2" href="">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a class="text-body px-2" href="">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a class="text-body px-2" href="">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a class="text-body px-2" href="">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a class="text-body ps-2" href="">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Topbar End -->
+
+
+    <!-- Navbar Start -->
+    <div class="container-fluid sticky-top bg-white shadow-sm mb-5">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg bg-white navbar-light py-3 py-lg-0">
+                <a href="/" class="navbar-brand">
+                    <h1 class="m-0 text-uppercase text-primary"><i class="fa fa-stethoscope me-2"></i>Dispensary Management System</h1>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <div class="navbar-nav ms-auto py-0">
+                        <a href="/index/" class="nav-item nav-link ">Home</a>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Registration</a>
+                            <div class="dropdown-menu m-0">
+                             
+                                <a href="/patient_registration/" class="dropdown-item">Patient Registration</a>
+                         
+                            </div>
+                        </div>
+                        <a href="/login/" class="nav-item nav-link">Login</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <!-- Navbar End -->
+
+
+<!-- Appointment Start -->
+<div class="container-fluid py-5" style="position: relative;">
+    <img src="/static/assets/img/back.jpg" alt="Background Image" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.5; z-index: -1;">
+    <div class="container">
+        <div class="row gx-5 justify-content-center">
+            <div class="col-lg-8">
+                <div class="card mb-3" style="background-color: transparent;">
+                    <div class="card-body">
+                        <h1 class="mb-4 text-center">Patient Registration</h1>
+                        {% if messages %}
+                        <ul class="messages">
+                            {% for message in messages %}
+                            <div class="alert alert-success">{{ message }}</div>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                        <form action="/save_patient/" method="post" id="myform" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="patient_name"><b>Name</b></label>
+                                        <input type="text" class="form-control" id="patient_name" name="patient_name" placeholder="Enter your name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label><b>Address</b></label>
+                                        <textarea name="address" class="form-control" placeholder="Enter your address" required></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label><b>Date of Birth</b></label>
+                                        <input type="date" class="form-control" max="{{ today|date:'Y-m-d' }}" id="dob" name="dob" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label><b>Phone Number</b></label>
+                                        <input class="form-control" type="tel" name="phone_number" placeholder="Enter your phone number" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="state"><b>State</b></label>
+                                        <select name="state" id="state" class="form-control" required>
+                                            <option value="">--Select--</option>
+                                            {% for k in data %}
+                                            <option value="{{ k.state_id }}">{{ k.state }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="district"><b>District</b></label>
+                                        <select name="district" id="district" class="form-control" required>
+                                            <option value="">--Select--</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label><b>Place</b></label>
+                                        <input class="form-control" type="text" name="place" placeholder="Enter your place" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label><b>Username</b></label>
+                                        <input name="username" class="form-control" placeholder="Username" id="id_username" type="text" required>
+                                        <span id="cb"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label><b>Password</b></label>
+                                        <input type="password" class="form-control" placeholder="Password" name="password" id="password" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label><b>Confirm Password</b></label>
+                                        <input type="password" class="form-control" placeholder="Confirm Password" name="cpassword" id="password2" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 text-center">
+                                <br>
+                                <button type="submit" class="btn btn-primary btn-lg">Register</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<link href="{% static 'assets/jquery/jquery-ui.css' %}" rel="stylesheet" type="text/css"  />
+<script type="text/javascript" src="{% static 'assets/jquery/jquery.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/jquery/jquery-ui.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/jquery/jquery-ui.min.js' %}"></script>
+<script>
+$(function() {
+
+
+$( "#joining_date" ).datepicker({ dateFormat: 'yy-mm-dd', changeMonth: true,
+changeYear: true,maxDate:'0', });
+$( "#dob" ).datepicker({ dateFormat: 'yy-mm-dd', changeMonth: true,
+changeYear: true,maxDate:'-18y', });
+
+});</script>
+ <script>
+  $("#id_username").keyup(function () {
+      $('#uname').val("");
+     var username = $(this).val();
+     var count = username.length;
+     $('#cb').html("");
+     if(count>4)
+    {
+     $.ajax({
+           url: '/check_username/',
+           data: {
+               'username': username
+           },
+           dataType: 'json',
+           success: function (data) {
+                if (data.username_exists) {
+
+
+                  $('#cb').css('color','red');
+              $('#cb').html(data.error);
+
+                }
+                else{
+
+                  $('#cb').css('color','green');
+              $('#cb').html(data.success);
+              $('#uname').val(1);
+                }
+           }
+     });
+  }
+  });
+</script>
+<script src="{% static 'assets/Validation/jquery-1.11.1.min.js' %}"></script>
+<script src="{% static 'assets/Validation/jquery_validate.js' %}"></script>
+<script src="{% static 'assets/Validation/additional_validate.js' %}"></script>
+<script>
+(function ($, W, D)
+{
+var JQUERY4U = {};
+JQUERY4U.UTIL =
+{
+setupFormValidation: function ()
+{
+$.validator.addMethod(
+"regex",
+function(value, element, regexp) {
+var check = false;
+return this.optional(element) || regexp.test(value);
+},
+"Not a valid Input."
+);
+
+//form validation rules
+$("#myform").validate({
+rules: {
+
+    patient_name: {
+						  required: true,
+						  regex : /^[A-Za-z ]+$/,
+						  minlength: 3,
+
+						},
+					
+						state: {
+						  required: true,
+
+
+						},
+						district: {
+						  required: true,
+
+
+						},
+                        dob: {
+						  required: true,
+
+
+						},
+						place: {
+						  required: true,
+						  regex : /^[A-Za-z ]+$/,
+
+						},
+						phone_number: {
+							required: true,
+							digits:true,
+							   minlength: 10,
+							   maxlength: 10,
+							   regex : /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[6789]\d{9}$/
+						},
+						address: {
+						  required: true,
+						  minlength: 3,
+
+						},
+						ownername: {
+						  required: true,
+						  minlength: 3,
+						  regex : /^[A-Za-z ]+$/,
+						},
+
+						email: {
+						 required: true,
+						 regex :  /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+
+						},
+						username: {
+							required: true,
+							regex : /^[A-Za-z0-9@]+$/,
+							minlength: 5,
+							maxlength: 15,
+
+						},
+						password: {
+							required: true,
+							 regex : /^[A-Za-z0-9@#*]+$/,
+							 minlength: 5,
+							maxlength: 15,
+
+						},
+						cpassword: {
+							required: true,
+							   regex : /^[A-Za-z0-9@#*]+$/,
+							   minlength: 5,
+							  maxlength: 15,
+						  equalTo: "#password"
+
+						},
+					
+					  },
+					  messages: {
+
+						phone: "Please Enter Valid 10 digit Phone Number - Starting from 6, 7 or 8 or 9",
+
+		  username: "Please Enter Valid User Name(5-15 digit alphanumeric username",
+			password: "Please Enter Valid Password Name(5-15 digit alphanumeric  password  and @#* also allowed",
+			   cpassword: "Please Enter Valid Password Name(5-15 digit alphanumeric confirm password and same as above password and @#* also allowed",
+			   uname:"User name is not available",
+	  },
+submitHandler: function (form) {
+form.submit();
+}
+});
+}
+}
+//when the dom has loaded setup form validation rules
+$(D).ready(function ($) {
+JQUERY4U.UTIL.setupFormValidation();
+});
+})(jQuery, window, document);
+</script>
+
+<script>
+    $("#state").change(function () {
+          var state = $(this).val();
+
+          $.ajax({
+
+                url: '/display_district/',
+                data: {
+                    'state_id': state
+                },
+                dataType: 'json',
+                success: function (data) {
+
+
+                   let html_data = '<option value="">--Select--</option>';
+data.forEach(function (data) {
+html_data += `<option value="${data.district_id}">${data.district}</option>`
+});
+$("#district").html(html_data);
+
+
+
+                }
+          });
+
+       });</script>
+        <script>
+              $("#id_username").keyup(function () {
+                  $('#uname').val("");
+                 var username = $(this).val();
+                 var count = username.length;
+                 $('#cb').html("");
+                 if(count>4)
+                {
+                 $.ajax({
+                       url: '/check_username/',
+                       data: {
+                           'username': username
+                       },
+                       dataType: 'json',
+                       success: function (data) {
+                            if (data.username_exists) {
+
+
+                              $('#cb').css('color','red');
+                          $('#cb').html(data.error);
+
+                            }
+                            else{
+
+                              $('#cb').css('color','green');
+                          $('#cb').html(data.success);
+                          $('#uname').val(1);
+                            }
+                       }
+                 });
+              }
+              });
+           </script>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Appointment End -->
+
+
+    <!-- Footer Start -->
+  
+    <div class="container-fluid bg-dark text-light border-top border-secondary py-4">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-md-0">&copy; <a class="text-primary" href="#">Dispensary Management System</a>. All Rights Reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                 
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'assets/lib/easing/easing.min.js'%}"></script>
+    <script src="{% static 'assets/lib/waypoints/waypoints.min.js'%}"></script>
+    <script src="{% static 'assets/lib/owlcarousel/owl.carousel.min.js'%}"></script>
+    <script src="{% static 'assets/lib/tempusdominus/js/moment.min.js'%}"></script>
+    <script src="{% static 'assets/lib/tempusdominus/js/moment-timezone.min.js'%}"></script>
+    <script src="{% static 'assets/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js'%}"></script>
+
+    <!-- Template Javascript -->
+    <script src="{% static 'assets/js/main.js'%}"></script>
+</body>
+
+</html>

@@ -1,0 +1,107 @@
+
+
+{% extends "Lab/header_adm.html" %}
+{% block content %}
+{% load static %}
+
+
+<div id="page-wrapper">
+    <div class="main-page">
+        <div class="forms">
+
+            <h3 class="title1">Add Test Result</h3>
+            <div class="col-sm-6"  style="min-height:500px;">
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                  <div class="alert alert-success"> {{message }}</div>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            <div class="form-grids row widget-shadow" data-example-id="basic-forms">
+                <div class="form-title">
+                    <h4>Add Test Result :</h4>
+                </div>
+
+                <div class="form-body">
+                 
+              <form action="/save_test_result/{{id}}" method="post" id="myform" class="row g-3" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label>Description </label>
+                  <textarea name="description"  class="form-control" ></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label>Upload Result </label>
+                    <input  type="file" name="result" >
+                    </div>
+                <div class="text-center" >
+                <button type="submit" class="btn btn-primary">Submit</button></div> </form>
+</div>
+
+<script src="{% static 'assets/Validation/jquery_validate.js' %}"></script>
+<script src="{% static 'assets/Validation/additional_validate.js' %}"></script>
+<script>
+(function ($, W, D)
+{
+var JQUERY4U = {};
+JQUERY4U.UTIL =
+{
+  setupFormValidation: function ()
+  {
+    $.validator.addMethod(
+"regex",
+function(value, element, regexp) {
+var check = false;
+return this.optional(element) || regexp.test(value);
+},
+"Not a valid Input."
+);
+
+  //form validation rules
+  $("#myform").validate({
+    rules: {
+      description: {
+                          required: true,
+                      
+
+                        },
+                        result: {
+                          required: true,
+                          extension:'pdf',
+                      
+
+                        },
+
+                      },
+                      messages: {
+
+
+
+      },
+      submitHandler: function (form) {
+      form.submit();
+      }
+  });
+}
+}
+//when the dom has loaded setup form validation rules
+$(D).ready(function ($) {
+JQUERY4U.UTIL.setupFormValidation();
+});
+})(jQuery, window, document);
+</script>
+                </div>
+            </div>
+        </div>
+            <div class="col-sm-6" style="margin-top: 10px;">
+
+    
+            </div>
+            <div class="row">
+
+        </div>
+    </div>
+</div>
+<!--footer-->
+{% endblock %}

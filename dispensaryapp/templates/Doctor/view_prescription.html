@@ -1,0 +1,136 @@
+
+{% extends "Doctor/header_adm.html" %}
+{% block content %}
+{% load static %}
+
+
+<div id="page-wrapper">
+    <div class="main-page">
+        <div class="forms">
+
+            <h3 class="title1"> Prescription & Lab - History</h3>
+
+            <div class="col-sm-12" style="margin-top: 10px;">
+ 
+                {% if messages %}
+                            <ul class="messages">
+                                {% for message in messages %}
+                              <div class="alert alert-success"> {{message }}</div>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                            <div class="form-title">
+                              <h4>Medical Prescription :</h4>
+                          </div>
+                            {% if data %}
+                            <table class="table table-striped table-bordered">
+                               
+
+                                {%  for k in data  %}
+
+                               
+                                <tr>
+                                  <th>Next visiting Date</th>
+  
+  
+                                  <td>{{k.2}} </td></tr>
+  
+                                  <tr>
+                                    <th>Symptoms</th>
+    
+    
+                                    <td>{{k.3}} </td></tr>  
+                                  </tr>
+                                 
+                                  <tr>
+                                    <th>Medicine</th>
+    
+    
+                                    <td>{{k.4}} </td></tr>  
+                                  </tr>
+                                  <tr>
+                                    <th>Use</th>
+    
+    
+                                    <td>{{k.5}} </td></tr>  
+                                  </tr>
+                                  <tr>
+                                      <th>Details</th>
+      
+      
+                                      <td>{{k.6}} </td></tr>  
+                                    </tr>
+                                   
+                                    <tr>
+                                      <th>Consulting Date</th>
+      
+      
+                                      <td>{{k.7}} </td></tr>
+                                   
+                                    {% endfor  %}
+                              </table>
+
+
+                                    {% else %}
+                                    <div class="alert alert-success"> No List Available</div>
+                                    {% endif %}
+                                    <div class="form-title">
+                                      <h4>Test result :</h4>
+                                  </div>
+                                    {% if data2 %}
+                                 
+                                       
+        
+                                        {%  for k in data2  %}
+                                        <h5>Test : {{k.8}}</h5>
+                                        <table class="table table-striped table-bordered">
+                                        <tr>
+                                        <th>Lab Details</th>
+        
+        
+                                        <td>{{k.12}}, Email : {{k.14}}, Phone : {{k.15}}</td></tr>
+                                        <tr>
+                                        <th>Status</th>
+        
+        
+                                        <td>{{k.3}} </td></tr>
+                                        <tr>
+                                            <th>Description</th>
+            
+            
+                                            <td>{{k.5}} </td></tr>  
+                                          </tr>
+                                          <tr>
+                                            <th>Date</th>
+            
+            
+                                            <td>{{k.6}} </td></tr>  
+                                          </tr>
+                                          <tr>
+                                            <th>Result</th>
+            
+            
+                                            <td>
+                                              {% if k.3 == 'Result is prepared'  %}
+                                              <a href="{{k.4}}">Download</a> 
+                                              {% else %}
+                                              <div class="alert alert-danger">{{k.3}}</div>
+                                              {% endif %}
+                                            </td></tr>  
+                                          </tr>       
+                                              </table>
+                                            {% endfor  %}
+                                  
+        
+        
+                                            {% else %}
+                                            <div class="alert alert-success"> No List Available</div>
+                                            {% endif %}
+            </div>
+            <div class="row">
+
+        </div>
+    </div>
+</div>
+<!--footer-->
+{% endblock %}

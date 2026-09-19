@@ -1,0 +1,200 @@
+
+{% extends "Doctor/header_adm.html" %}
+{% block content %}
+{% load static %}
+
+
+<div id="page-wrapper">
+    <div class="main-page">
+        <div class="forms">
+
+            <h3 class="title1">Add Prescription details</h3>
+
+            <div class="col-sm-12" style="margin-top: 10px;">
+    <div class="form-title">
+                    <h4>Add Details :</h4>
+                </div>
+                {% if messages %}
+                            <ul class="messages">
+                                {% for message in messages %}
+                              <div class="alert alert-success"> {{message }}</div>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                            <form action="/save_prescription/{{id}}" method="post" id="myform" enctype="multipart/form-data">
+                                {% csrf_token %}
+                            <div class="col-sm-6" >
+                               
+                                <div class="form-group">
+                                    <label>Next visiting date</label>
+                                    <input type="text" readonly class="form-control" placeholder="Date" id="visiting_date" name="visiting_date"  style="height: 55px;">
+                                    </div> 
+                                    
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <label>Symptoms</label>
+                                            <textarea name="symptoms"  class="form-control" ></textarea>
+                                            </div>
+                                        <label>Medicine Details</label>
+                                        <textarea name="medicine"  class="form-control" ></textarea>
+                                        </div>
+                                        
+                                   
+                                        <div class="form-group">
+                                          <label>Uses of Medicine </label>
+                                          <textarea name="uses"  class="form-control" ></textarea>
+                                          </div>
+                                          <div class="form-group">
+                                              <label>Other Details</label>
+                                              <textarea name="details"  class="form-control" ></textarea>
+                                              </div>
+                                     
+                                    </div>
+                                    <div class="col-sm-6">
+                                      <div class="form-group"> <label for="">Lab</label>
+                                        <select name="lab_login_id"  id="lab_login_id" class="form-control bg-white" >
+                                        <option value="">--Select--</option>
+                                        {%  for k in data  %}
+                                        <option value="{{k.login_id}}">{{k.name}}</option>
+                                        {% endfor  %}
+                                        </select> </div>
+                                            <div class="form-group" >
+                                              <label for="">Test Type</label>
+                                              <select class="form-control bg-white" id="test_type" name="test_type"  multiple>
+                                                <option value="">--Select--</option>
+                                              
+                                              </select>
+                                    </div> 
+                                    </div>
+                                    <div class="col-sm-12" style="text-align: center;"> <button type="submit" class="btn btn-default">Submit</button> </div></form>
+                                    <link href="{% static 'assets/jquery/jquery-ui.css' %}" rel="stylesheet" type="text/css"  />
+                                    
+                                    <script type="text/javascript" src="{% static 'assets/jquery/jquery-ui.js' %}"></script>
+                                    <script type="text/javascript" src="{% static 'assets/jquery/jquery-ui.min.js' %}"></script>
+                                   
+                         
+                                    <script src="{% static 'assets/Validation/jquery_validate.js' %}"></script>
+                                    <script src="{% static 'assets/Validation/additional_validate.js' %}"></script>
+                                    <script>
+                                    (function ($, W, D)
+                                    {
+                                    var JQUERY4U = {};
+                                    JQUERY4U.UTIL =
+                                    {
+                                    setupFormValidation: function ()
+                                    {
+                                    $.validator.addMethod(
+                                    "regex",
+                                    function(value, element, regexp) {
+                                    var check = false;
+                                    return this.optional(element) || regexp.test(value);
+                                    },
+                                    "Not a valid Input."
+                                    );
+                                    
+                                    //form validation rules
+                                    $("#myform").validate({
+                                    rules: {
+                                        visiting_date: {
+                                                              required: true,
+                                                            
+                                                           
+                                    
+                                                            },
+                                                            symptoms: {
+                                                              required: true,
+                                                            
+                                                           
+                                    
+                                                            },
+                                                            
+                                        medicine: {
+                                                              required: true,
+                                                            
+                                                              minlength: 5,
+                                    
+                                                            },
+                                                            uses: {
+                                                              required: true,
+                                                             
+                                                              minlength: 5,
+                                    
+                                                            },			
+                                                            details: {
+                                                              required: true,
+                                                             
+                                                              minlength: 5,
+                                    
+                                                            },
+                                                        
+                                                          },
+                                                          messages: {
+                                    
+                                                           
+                                    
+                                              
+                                          },
+                                    submitHandler: function (form) {
+                                    form.submit();
+                                    }
+                                    });
+                                    }
+                                    }
+                                    //when the dom has loaded setup form validation rules
+                                    $(D).ready(function ($) {
+                                    JQUERY4U.UTIL.setupFormValidation();
+                                    });
+                                    })(jQuery, window, document);
+                                    </script>
+                                    <link href="{% static 'assets/jquery/jquery-ui.css' %}" rel="stylesheet" type="text/css"  />
+                                   
+                                    <script type="text/javascript" src="{% static 'assets/jquery/jquery-ui.js' %}"></script>
+                                   
+                                    <script>
+                                    $(function() {
+                                    
+                                    
+                                    $( "#visiting_date" ).datepicker({ dateFormat: 'yy-mm-dd', changeMonth: true,
+                                    changeYear: true,minDate:'0', });
+                             
+                                    
+                                    });</script>
+                               <script>
+                                 $("#lab_login_id").change(function () {
+          var lab_login_id = $(this).val();
+  // alert(lab_login_id);
+          $.ajax({
+
+                url: '/display_lab_type/',
+                data: {
+                    'lab_login_id': lab_login_id},
+                dataType: 'json',
+                success: function (data) {
+
+
+                   let html_data = '<option value="">--Select--</option>';
+data.forEach(function (data) {
+html_data += `<option value="${data.lab_test_type_id}">${data.tests}</option>`
+});
+$("#test_type").html(html_data);
+
+
+
+                }
+          });
+
+       });   
+	   </script>
+                             
+                            </div>   
+                          
+
+
+            </div>
+            <div class="row">
+
+        </div>
+    </div>
+</div></div>
+<!--footer-->
+{% endblock %}

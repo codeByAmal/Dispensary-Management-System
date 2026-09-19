@@ -1,0 +1,129 @@
+
+{% extends "Master/header_adm.html" %}
+{% block content %}
+{% load static %}
+
+
+<div id="page-wrapper">
+<div class="main-page">
+<div class="forms">
+
+<h3 class="title1">Edit Insurance</h3>
+<div class="col-sm-12"  style="min-height:500px;">
+{% if messages %}
+<ul class="messages">
+{% for message in messages %}
+<div class="alert alert-success"> {{message }}</div>
+{% endfor %}
+</ul>
+{% endif %}
+<div class="form-grids row widget-shadow" data-example-id="basic-forms">
+<div class="form-title">
+<h4>Edit Insurance:</h4>
+</div>
+
+<div class="form-body">
+
+{% csrf_token %}
+
+
+<div class="col-sm-6">
+  <form action="/update_insurance/{{data.insurance_id}}" method="post" id="myform" enctype="multipart/form-data">
+    {% csrf_token %}
+<div class="form-group"> <label for="">Insurance Provider/Company</label>
+<input type="text" class="form-control" id="" placeholder="" value="{{data.insuarnce_company}}" name="insurance_company"> </div>
+
+
+
+
+<div class="form-group"> <label for="">Description</label>
+  <textarea class="form-control" name="description">{{data.description}}</textarea> </div>
+
+<div class="col-sm-12" style="text-align: center;"> <button type="submit" class="btn btn-default">Submit</button> </div>
+</form>
+   
+</div>
+<div class="col-sm-6">
+
+  
+</div>
+
+<link href="{% static 'assets/jquery/jquery-ui.css' %}" rel="stylesheet" type="text/css"  />
+
+<script type="text/javascript" src="{% static 'assets/jquery/jquery-ui.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/jquery/jquery-ui.min.js' %}"></script>
+
+<script src="{% static 'assets/Validation/jquery_validate.js' %}"></script>
+<script src="{% static 'assets/Validation/additional_validate.js' %}"></script>
+<script>
+(function ($, W, D)
+{
+var JQUERY4U = {};
+JQUERY4U.UTIL =
+{
+setupFormValidation: function ()
+{
+$.validator.addMethod(
+"regex",
+function(value, element, regexp) {
+var check = false;
+return this.optional(element) || regexp.test(value);
+},
+"Not a valid Input."
+);
+
+//form validation rules
+$("#myform").validate({
+rules: {
+
+    course: {
+						  required: true,
+						  regex : /^[A-Za-z. ]+$/,
+						  minlength: 3,
+
+						},
+					
+						fee: {
+						  required: true,
+                          digits:true,
+
+
+						},
+						course_type: {
+						  required: true,
+
+
+						},
+			
+					
+					  },
+					  messages: {
+
+						
+	  },
+submitHandler: function (form) {
+form.submit();
+}
+});
+}
+}
+//when the dom has loaded setup form validation rules
+$(D).ready(function ($) {
+JQUERY4U.UTIL.setupFormValidation();
+});
+})(jQuery, window, document);
+</script>
+
+</div>
+</div>
+</div>
+<div class="col-sm-6" style="margin-top: 10px;">
+
+</div>
+<div class="row">
+
+</div>
+</div>
+</div>
+<!--footer-->
+{% endblock %}
